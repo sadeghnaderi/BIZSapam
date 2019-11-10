@@ -1,0 +1,58 @@
+﻿@model BizSapam.ViewModels.UserInformationsIpagedList
+
+@{
+    ViewBag.Title = "SellInformation";
+}
+
+<head>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <style>
+        body {
+            padding:unset !important;
+        }
+    </style>
+</head>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            
+            <div class="content table-responsive table-full-width" style="direction:rtl;">
+                <table class="table table-hover table-striped" style="font-family:IRANSans;">
+                    <thead>
+                        <tr>
+                            <th style="text-align:right; padding-right:20px; width:150px;">نام کاربر</th>
+                            <th style="text-align:right; width:150px;">کد بازاریابی</th>
+                            <th style="text-align:right; width:150px;">جمع فاکتورها در دوره انتخابی</th>
+
+                            <th style=" width:150px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var UserInformation in Model.IpagedListUserInfo)
+                        {
+                            <tr>
+
+                                <td style="font-family:'B Koodak'; padding-right:20px;">@Html.DisplayFor(m => UserInformation.Name)</td>
+                                <td style="font-family:'B Koodak'">@Html.DisplayFor(m => UserInformation.BIZCode)</td>
+                                <td style="font-family:'B Koodak'">@Html.DisplayFor(m => UserInformation.TotalPurchase)</td>
+
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot style="font-family:IRANSans; font-size:15px;">
+                        <tr>
+                            <td colspan="1"></td>
+                            <td colspan="1">جمع کل</td>
+                            <td><label type="text">@ViewBag.TotalPrice</label></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

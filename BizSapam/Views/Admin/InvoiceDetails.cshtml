@@ -1,0 +1,264 @@
+﻿@model BizSapam.ViewModels.InvoiceItems
+
+@{
+    ViewBag.Title = "InvoiceDetails";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<head>
+        <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <meta charset="utf-8">
+    <!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
+    <title>فاکتور جدید</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="/favicon.png" rel="shortcut icon" type="image/png">
+
+    <link rel="stylesheet" href="~/Content/ButtonStyle.css">
+
+    <style type="text/css">
+        #inventory-invoice {
+            padding: 0px;
+        }
+
+            #inventory-invoice a {
+                text-decoration: none !important;
+            }
+
+        .invoice {
+            position: relative;
+            background-color: #FFF;
+            min-height: 680px;
+            padding: 15px
+        }
+
+            .invoice header {
+                padding: 10px 0;
+                margin-bottom: 20px;
+                border-bottom: 1px solid #3989c6
+            }
+
+            .invoice .company-details {
+                text-align: right
+            }
+
+                .invoice .company-details .name {
+                    margin-top: 0;
+                    margin-bottom: 0
+                }
+
+            .invoice .contacts {
+                margin-bottom: 20px
+            }
+
+            .invoice .invoice-to {
+                text-align: left
+            }
+
+                .invoice .invoice-to .to {
+                    margin-top: 0;
+                    margin-bottom: 0
+                }
+
+            .invoice .invoice-details {
+                text-align: right
+            }
+
+                .invoice .invoice-details .invoice-id {
+                    margin-top: 0;
+                    color: #3989c6
+                }
+
+            .invoice main {
+                padding-bottom: 50px
+            }
+
+                .invoice main .thanks {
+                    margin-top: -100px;
+                    font-size: 2em;
+                    margin-bottom: 50px
+                }
+
+                .invoice main .notices {
+                    padding-left: 6px;
+                    border-left: 6px solid #3989c6
+                }
+
+                    .invoice main .notices .notice {
+                        font-size: 1.2em
+                    }
+
+            .invoice table {
+                width: 100%;
+                border-collapse: collapse;
+                border-spacing: 0;
+                margin-bottom: 20px
+            }
+
+                .invoice table td, .invoice table th {
+                    padding: 15px;
+                    background: #eee;
+                    border-bottom: 1px solid #fff
+                }
+
+                .invoice table th {
+                    white-space: nowrap;
+                    font-weight: 400;
+                    font-size: 16px;
+                    border: 1px solid #fff;
+                }
+
+                .invoice table td {
+                    border: 1px solid #fff;
+                }
+
+                    .invoice table td h3 {
+                        margin: 0;
+                        font-weight: 400;
+                        color: #3989c6;
+                        font-size: 1.2em
+                    }
+
+                .invoice table .tax, .invoice table .total, .invoice table .unit {
+                    text-align: right;
+                    font-size: 1.2em
+                }
+
+                .invoice table .no {
+                    color: #fff;
+                    font-size: 1.6em;
+                    background: #17a2b8
+                }
+
+                .invoice table .unit {
+                    background: #ddd
+                }
+
+                .invoice table .total {
+                    background: #17a2b8;
+                    color: #fff
+                }
+
+                .invoice table tfoot td {
+                    background: 0 0;
+                    border-bottom: none;
+                    white-space: nowrap;
+                    text-align: right;
+                    padding: 10px 20px;
+                    font-size: 1.2em;
+                    border-top: 1px solid #aaa
+                }
+
+                .invoice table tfoot tr:first-child td {
+                    border-top: none
+                }
+
+                .invoice table tfoot tr:last-child td {
+                    color: #3989c6;
+                    font-size: 1.4em;
+                    border-top: 1px solid #3989c6
+                }
+
+                .invoice table tfoot tr td:first-child {
+                    border: none
+                }
+
+            .invoice footer {
+                width: 100%;
+                text-align: center;
+                color: #777;
+                border-top: 1px solid #aaa;
+                padding: 8px 0
+            }
+
+        .invoice {
+            font-size: 11px !important;
+            overflow: hidden !important
+        }
+
+            .invoice footer {
+                position: absolute;
+                bottom: 10px;
+                page-break-after: always
+            }
+
+            .invoice > div:last-child {
+                page-break-before: always
+            }
+    </style>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="~/Scripts/jquery.autocomplete.js"></script>
+
+</head>
+
+
+<body>
+
+    <div id="inventory-invoice">
+
+        <div class="invoice overflow-auto" style="padding:unset !important;">
+            <div style="min-width: 600px">
+
+                <main>
+
+                    <table id="tblInvoice" style="direction:rtl; text-align:center !important;" border="0" cellspacing="0" cellpadding="0">
+                        <thead>
+                            <tr style="font-family:IRANSans; font-size:20px;">
+                                <th style="text-align:center !important;">کد محصول</th>
+                                <th style="text-align:center !important;">نام محصول</th>
+                                <th style="text-align:center !important;">تعداد</th>
+                                <th style="text-align:center !important;">قیمت</th>
+                                <th style="text-align:center !important;">جمع</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size:15px; font-family:IRANSans">
+                            @foreach (var InvoiceItem in Model.InvoiceItem)
+                            {
+                                <tr style="font-family:IRANSans;">
+                                    <td class="unit" style="text-align:center;"><label type="text">@InvoiceItem.Tbl_Products.Barcode</label></td>
+                                    <td>
+                                        <label type="text">@InvoiceItem.Tbl_Products.ProductName</label>
+                                    </td>
+
+                                    <td class="unit" style="font-family:IRANSans; text-align:center !important; width:150px;">
+
+                                        <label type="text">@InvoiceItem.Qty</label>
+
+                                    </td>
+                                    <td class="tax" style="font-family:IRANSans; text-align:center !important;"><label type="text">@InvoiceItem.Price</label></td>
+                                    <td class="total" style="font-family:IRANSans; text-align:center !important;"><label type="text">@Convert.ToInt32((InvoiceItem.Qty) * Convert.ToInt32(InvoiceItem.Price))</label></td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                    <div id="HidePrint1" class="notices" style="margin-top:20px;">
+                        <input type="button" onclick="PrintInvoice()" id="btnSave" value="چاپ" class="btn btn-success btn-block" style="font-family:IRANSans; float:right; width:90%" />
+                        <input type="button" onclick="window.open('http://bizsapam.ir/Admin/SirjanShopSellInformations?search=AllInvoice', '_self')" value="بازگشت" class="btn btn-danger" style="font-family:IRANSans; float:left; width:9%;" />
+                    </div>
+
+                </main>
+            </div>
+            <div></div>
+        </div>
+    </div>
+
+
+
+    @*<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>*@
+    <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+</body>
+
+<script>
+    function PrintInvoice() {
+        
+        document.getElementById("HidePrint1").style.display = "none";
+        document.getElementById("HidePrint2").style.display = "none";
+
+        window.print();
+        window.open("http://bizsapam.ir/Admin/SirjanShopSellInformations?search=AllInvoice", "_self");
+    }
+</script>

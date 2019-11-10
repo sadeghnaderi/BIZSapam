@@ -1,0 +1,766 @@
+﻿@model BizSapam.Models.Tbl_Products
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+        <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <meta charset="utf-8">
+    <!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
+    <title>فاکتور</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/favicon.png" rel="shortcut icon" type="image/png">
+
+    <link rel="stylesheet" href="~/Content/ButtonStyle.css">
+
+    <style type="text/css">
+        #inventory-invoice {
+            padding: 0px;
+        }
+
+            #inventory-invoice a {
+                text-decoration: none !important;
+            }
+
+        .invoice {
+            position: relative;
+            background-color: #FFF;
+            min-height: 680px;
+            padding: 15px
+        }
+
+            .invoice header {
+                padding: 10px 0;
+                margin-bottom: 20px;
+                border-bottom: 1px solid #3989c6
+            }
+
+            .invoice .company-details {
+                text-align: right
+            }
+
+                .invoice .company-details .name {
+                    margin-top: 0;
+                    margin-bottom: 0
+                }
+
+            .invoice .contacts {
+                margin-bottom: 20px
+            }
+
+            .invoice .invoice-to {
+                text-align: left
+            }
+
+                .invoice .invoice-to .to {
+                    margin-top: 0;
+                    margin-bottom: 0
+                }
+
+            .invoice .invoice-details {
+                text-align: right
+            }
+
+                .invoice .invoice-details .invoice-id {
+                    margin-top: 0;
+                    color: #3989c6
+                }
+
+            .invoice main {
+                padding-bottom: 50px
+            }
+
+                .invoice main .thanks {
+                    margin-top: -100px;
+                    font-size: 2em;
+                    margin-bottom: 50px
+                }
+
+                .invoice main .notices {
+                    padding-left: 6px;
+                    border-left: 6px solid #3989c6
+                }
+
+                    .invoice main .notices .notice {
+                        font-size: 1.2em
+                    }
+
+            .invoice table {
+                width: 100%;
+                border-collapse: collapse;
+                border-spacing: 0;
+                margin-bottom: 20px
+            }
+
+                .invoice table td, .invoice table th {
+                    padding: 15px;
+                    background: #eee;
+                    border-bottom: 1px solid #fff
+                }
+
+                .invoice table th {
+                    white-space: nowrap;
+                    font-weight: 400;
+                    font-size: 16px;
+                    border: 1px solid #fff;
+                }
+
+                .invoice table td {
+                    border: 1px solid #fff;
+                }
+
+                    .invoice table td h3 {
+                        margin: 0;
+                        font-weight: 400;
+                        color: #3989c6;
+                        font-size: 1.2em
+                    }
+
+                .invoice table .tax, .invoice table .total, .invoice table .unit {
+                    text-align: right;
+                    font-size: 1.2em
+                }
+
+                .invoice table .no {
+                    color: #fff;
+                    font-size: 1.6em;
+                    background: #17a2b8
+                }
+
+                .invoice table .unit {
+                    background: #ddd
+                }
+
+                .invoice table .total {
+                    background: #17a2b8;
+                    color: #fff
+                }
+
+                .invoice table tfoot td {
+                    background: 0 0;
+                    border-bottom: none;
+                    white-space: nowrap;
+                    text-align: right;
+                    padding: 10px 20px;
+                    font-size: 1.2em;
+                    border-top: 1px solid #aaa
+                }
+
+                .invoice table tfoot tr:first-child td {
+                    border-top: none
+                }
+
+                .invoice table tfoot tr:last-child td {
+                    color: #3989c6;
+                    font-size: 1.4em;
+                    border-top: 1px solid #3989c6
+                }
+
+                .invoice table tfoot tr td:first-child {
+                    border: none
+                }
+
+            .invoice footer {
+                width: 100%;
+                text-align: center;
+                color: #777;
+                border-top: 1px solid #aaa;
+                padding: 8px 0
+            }
+
+        .invoice {
+            font-size: 11px !important;
+            overflow: hidden !important
+        }
+
+            .invoice footer {
+                position: absolute;
+                bottom: 10px;
+                page-break-after: always
+            }
+
+            .invoice > div:last-child {
+                page-break-before: always
+            }
+    </style>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="~/Scripts/jquery.autocomplete.js"></script>
+
+</head>
+
+
+<body>
+
+    <div id="inventory-invoice">
+
+        <div class="invoice overflow-auto" style="padding:unset !important;">
+            <div style="min-width: 600px">
+                <div id="HidePrint1">
+                    @Html.Action("_Profile")
+                </div>
+                <main>
+                    <div class="row contacts" style="padding:0 20px;">
+                        <div class="col invoice-to">
+                            <div class="text-gray-light" style="font-family:IRANSans; direction:rtl;">فاکتور شده برای:</div>
+                            <h2 class="to" style="font-family:IRANSans;">@ViewBag.Name</h2>
+                            <div class="address" style="font-family:IRANSans; direction:rtl;">بازاریابان ایرانیان زمین(بیز)</div>
+                            <div class="email"><a href="bizsapam.ir"></a></div>
+                        </div>
+
+                        <div id="HidePrint6">
+                            <input onchange="BarcodeReader()" id="TxtBarcode" type="text" style="height:30px; font-family:IRANSans;border: solid 1px gray;border-radius: 5px;">
+                        </div>
+
+                        <div class="col invoice-details">
+                            <h1 class="invoice-id" style="font-family:IRANSans; direction:rtl;">فاکتور @ViewBag.InvoiceId</h1>
+                            <div class="date" style="font-family:IRANSans; direction:rtl;">@ViewBag.DateTime</div>
+
+                        </div>
+                    </div>
+                    <hr />
+                    <table id="tblInvoice" style="direction:rtl; text-align:center !important;" border="0" cellspacing="0" cellpadding="0">
+                        <thead style="font-weight:bold;">
+                            <tr style="font-family:IRANSans; font-size:20px; font-weight:bold;">
+                                <th style="text-align:center !important;">ردیف</th>
+                                <th style="text-align:center !important;">کد محصول</th>
+                                <th style="text-align:center !important;">نام محصول</th>
+                                <th style="text-align:center !important;">تعداد</th>
+                                <th style="text-align:center !important;">قیمت</th>
+                                <th style="text-align:center !important;">جمع</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size:15px; font-family:IRANSans; font-weight:bold;">
+                            <tr style="font-family: IRANsans;font-weight: bold;" id="HidePrint2">
+                                <td class="no" style="width:100px;"><text type="text" id="txtRow" /> </td>
+                                <td class="unit" style="text-align:center;"><text type="text" id="txtBarcode" /></td>
+                                <td>
+                                    @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+                                </td>
+
+                                <td class="unit" style="font-family:IRANSans; text-align:center !important; width:150px;">
+                                    @*<input type="text" id="txtQty" class="form-control" />*@
+
+                                    <div id="QtyDiv" style="float:left; margin:6px; display: none; margin-top:-35px; text-align:left; width:100px;" class="quantity">
+                                        <button class="plus-btn" style="margin-right:1px;" name="plus-btn">
+                                            <img style="margin-bottom:3px !important; display:block; width:23px;" src="~/images/plus.png" alt="" />
+                                        </button>
+                                        <input style="font-family:IRANSans;border: solid 1px gray;border-radius: 5px; width:25px !important;" type="text" name="ProductQty" value="0" disabled="disabled" id="txtQty" readonly>
+
+                                        <button style="margin-left:2px; margin-top:1px;" class="minus-btn" name="button">
+                                            <img style="margin-bottom:unset !important; display:block; width:23px;" src="~/images/minus.png" alt="" />
+                                        </button>
+
+                                    </div>
+                                </td>
+                                <td class="tax" style="font-family:IRANSans; text-align:center !important;"><label type="text" id="txtPrice"></label></td>
+                                <td class="total" style="font-family:IRANSans; text-align:center !important;"><text type="text" id="txtSum" /></td>
+                                <td class="unit" style="font-family:IRANSans; text-align:center !important; width:100px;"><input type="button" onclick="AddItem()" id="btnAdd" value="ثبت" class="btn btn-info" /></td>
+
+                            </tr>
+
+                        </tbody>
+                        <tfoot style="font-family:IRANSans; font-size:15px;">
+                            <tr>
+                                <td colspan="3"><input type="hidden" id="txtId" /></td>
+                                <td colspan="2">جمع</td>
+                                <td style="text-align:center;"><label type="text" id="TotalSum"></label></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"></td>
+                                <td colspan="2">هزینه پستی</td>
+                                <td style="text-align:center;">0</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"></td>
+                                <td colspan="2">جمع کل</td>
+                                <td style="text-align:center;"><label type="text" id="TotalSum2"></label></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <div id="HidePrint3" class="thanks" style="display:none;">Thank you!</div>
+                    <div class="notices">
+                        <div class="notice">Developed By Sadegh Naderi(artadesigns.ir)</div>
+                    </div>
+                    <div id="HidePrint4" class="notices" style="margin-top:20px;">
+                        <input type="button" id="btnSave" value="ذخیره" class="btn btn-success btn-block" style="font-family:IRANSans; float:right; width:90%" />
+                        <input type="button" onclick="OpenHome()" value="انصراف" class="btn btn-danger" style="font-family:IRANSans; float:left; width:9%;" />
+                    </div>
+
+                </main>
+                <footer style="position:unset !important; font-family:IRANSans;direction:rtl;">
+                    <h2>گانودرما</h2> ، پادشاه گیاهان ، گیاه پادشاهان
+                </footer>
+            </div>
+            <div></div>
+        </div>
+    </div>
+
+
+
+    @*<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>*@
+    <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#ProductName").autocomplete({
+                source: function (request, response) {
+
+                    $.ajax({
+                        url: '@Url.Action("AddInvoice", "SellerPanel")',
+                        type: "POST",
+                        dataType: "json",
+                        data: { Prefix: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+
+                                return { label: item.ProductName, value: item.ProductName };
+                            }))
+
+                        }
+                    })
+                },
+                select: function (event, ui) {
+
+                    $.ajax({
+                    type: "post",
+                    url: '@Url.Action("GetProductInfo", "SellerPanel")',
+                    data: { ProductName: ui.item.label },
+                        success: function (data) {
+                            var res = data.split("-");
+
+                            window.Price = res[0];
+                            window.Id = res[1];
+                            ProductQty = res[2];
+
+                            if (ProductQty > 0) {
+                                document.getElementById("QtyDiv").style.display = "flex";
+
+                                $("#txtId").val(window.Id);
+                                $("#txtBarcode").html(window.Id);
+                                $("#txtRow").html("1");
+                                $("#ProductName").val(ui.item.label);
+                                $("#txtQty").val("1");
+                                $("#txtPrice").html(Number(window.Price).toLocaleString('en'));
+                                $("#txtSum").html(Number(window.Price).toLocaleString('en'));
+
+                                if (parseInt(window.RowNumber) > 0)
+                                    $("#txtRow").html(window.RowNumber);
+                                else
+                                    $("#txtRow").html("1");
+                            }
+
+                            else {
+                                alert("موجودی این محصول تمام شده است");
+                                $("#txtRow").html("");
+                                txtProduct.val("");
+                                txtQty.val("");
+                                $("#txtPrice").html("");
+                                $("#txtSum").html("");
+                                document.getElementById("QtyDiv").style.display = "none";
+                            }
+                        }
+                    });
+
+
+                },
+                messages: {
+                    noResults: "n", results: "r"
+                }
+
+            });
+
+        })
+
+        function AddProduct() {
+
+            if (parseInt($("#txtSum").html().replace(/\D/g, '')) > 0)
+                    {
+                var Sum = parseInt($("#txtSum").html().replace(/\D/g, '')) + parseInt($("#txtPrice").html().replace(/\D/g, ''));
+                    }
+                    else
+                    {
+                var Sum = parseInt($("#txtPrice").html().replace(/\D/g, ''));
+                    }
+            $("#txtSum").html(Number(Sum).toLocaleString('en'));
+
+        }
+
+
+        function RemoveProduct() {
+
+            if (parseInt($("#txtSum").html().replace(/\D/g, '')) > 0)
+                    {
+                var Sum = parseInt($("#txtSum").html().replace(/\D/g, '')) - parseInt($("#txtPrice").html().replace(/\D/g, ''));
+                    }
+
+            $("#txtSum").html(Number(Sum).toLocaleString('en'));
+
+        }
+
+
+        function AddItem() {
+
+            if ($("#txtSum").html().replace(/\D/g, '') == 0 || $("#txtSum").html().replace(/\D/g, '') == "") {
+                alert("لطفا اطلاعات ورودی را چک نمایید");
+            }
+
+            else {
+                var Id = $("#txtId").val();
+                var ProductQty = $("#txtQty").val();
+                var data = "Succesfull";
+
+                $("#tblInvoice TBODY TR").each(function () {
+                    var row = $(this);
+
+                    ProductId = row.find("TD").eq(1).html();
+
+                    if (ProductId == Id)
+                        data = "repeated";
+
+                });
+                            if (data == "Succesfull")
+                            {
+
+                                //Reference the Name and Country TextBoxes.
+                                var txtRow = $("#txtRow");
+                                var txtProduct = $("#ProductName");
+                                var txtQty = $("#txtQty");
+                                var txtPrice = $("#txtPrice");
+                                var txtSum = $("#txtSum");
+
+
+                                //Get the reference of the Table's TBODY element.
+                                var tBody = $("#tblInvoice > TBODY")[0];
+
+                                //Add Row.
+                                var row = tBody.insertRow(-1);
+
+                                //Add cell.
+                                var cell = $(row.insertCell(-1));
+                                cell.html($('#txtRow').html());
+
+                                var cell = $(row.insertCell(-1));
+                                cell.html($('#txtBarcode').html());
+
+                                //Add cell.
+                                cell = $(row.insertCell(-1));
+                                cell.html(txtProduct.val());
+
+                                cell = $(row.insertCell(-1));
+                                cell.html(txtQty.val());
+
+                                cell = $(row.insertCell(-1));
+                                cell.html($('#txtPrice').html().toLocaleString());
+
+                                cell = $(row.insertCell(-1));
+                                cell.html($('#txtSum').html().toLocaleString());
+
+                                //Add Button cell.
+                                cell = $(row.insertCell(-1));
+                                var btnRemove = $("<input />");
+                                btnRemove.attr("type", "button");
+                                btnRemove.attr("id", "HidePrint5");
+                                btnRemove.attr("class", "btn btn-danger");
+                                btnRemove.attr("onclick", "Remove(this);");
+                                btnRemove.val("حذف");
+                                cell.append(btnRemove);
+
+                                //Set RowNumber Value
+                                window.RowNumber = parseInt($('#txtRow').html()) + 1;
+
+                                //Update TotalPrice
+                                if ($("#TotalSum").html().replace(/\D/g, '') != "")
+                                    var TotalPrice = parseInt($("#TotalSum").html().replace(/\D/g, '')) + parseInt($("#txtSum").html().replace(/\D/g, ''));
+                                else
+                                    var TotalPrice = $("#txtSum").html()
+                                $("#TotalSum").html(TotalPrice.toLocaleString());
+                                $("#TotalSum2").html(TotalPrice.toLocaleString());
+                                //Clear the TextBoxes.
+
+                                $("#txtRow").html("");
+                                $("#txtBarcode").html("");
+                                txtProduct.val("");
+                                txtQty.val("");
+                                $("#txtPrice").html("");
+                                $("#txtSum").html("");
+                                document.getElementById("QtyDiv").style.display = "none";
+                            }
+                            else {
+                                //Clear the TextBoxes.
+                                alert("این محصول را قبلا اضافه کرده اید.برای ویرایش، ابتدا آن را حذف نمایید.");
+                                $("#txtRow").html("");
+                                txtProduct.val("");
+                                txtQty.val("");
+                                $("#txtPrice").html("");
+                                $("#txtSum").html("");
+                                document.getElementById("QtyDiv").style.display = "none";
+                                document.getElementById("TxtBarcode").value = "";
+                            }
+                        }
+                    }
+
+
+        function Remove(button) {
+            //Determine the reference of the Row using the Button.
+
+            var row = $(button).closest("TR");
+            var name = $("TD", row).eq(2).html();
+            var Price = $("TD", row).eq(5).html();
+
+            if (confirm("آیا " + name + " را حذف می کنید؟ ")) {
+                var TotalPrice = parseInt($("#TotalSum").html().replace(/\D/g, '')) - parseInt(Price.replace(/\D/g, ''));
+                $("#TotalSum").html(TotalPrice.toLocaleString());
+                $("#TotalSum2").html(TotalPrice.toLocaleString());
+                        //Get the reference of the Table.
+                        var table = $("#tblInvoice")[0];
+
+                        //Delete the Table row using it's Index.
+                        table.deleteRow(row[0].rowIndex);
+                    }
+                    window.RowNumber = window.RowNumber - 1;
+        }
+
+
+    $("body").on("click", "#btnSave", function () {
+        
+            var res = window.location.href.split("/");
+
+            var TotalSum = $("#TotalSum2").html().replace(/\D/g, '');
+
+        var ProductName = $("#ProductName").val();
+
+            var BizCode = res[5];
+            
+        if (TotalSum > 0 && ProductName == "") {
+
+            document.getElementById("btnSave").style.display = "none";
+
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("InsertInvoicePurchase", "SellerPanel")',
+                data: { UserBizCode: BizCode, Totalprice: TotalSum },
+                success: function (data) {
+                    var InvoiceItems = new Array();
+                    $("#tblInvoice TBODY TR").each(function () {
+                        var row = $(this);
+                        var InvoiceItem = {};
+                        InvoiceItem.Price = row.find("TD").eq(4).html().replace(/\D/g, '');
+                        InvoiceItem.Qty = row.find("TD").eq(3).html();
+                        InvoiceItem.Description = "";
+                        InvoiceItem.InvoiceId = data;
+                        InvoiceItem.ProductId = row.find("TD").eq(1).html();
+
+                        InvoiceItems.push(InvoiceItem);
+
+
+                    });
+
+
+                    //Send the JSON array to Controller using AJAX.
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("InsertInvoiceItems", "SellerPanel")',
+                        data: JSON.stringify(InvoiceItems),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (r) {
+                            alert(" این فاکتور با " + r + " آیتم با موفقیت ثبت شد");
+                            document.getElementById("HidePrint1").style.display = "none";
+                            document.getElementById("HidePrint2").style.display = "none";
+                            document.getElementById("HidePrint3").style.display = "none";
+                            document.getElementById("HidePrint4").style.display = "none";                  
+                            document.getElementById("HidePrint6").style.display = "none";                           
+
+                            var elms = document.querySelectorAll("[id='HidePrint5']");
+
+                            for (var i = 0; i < elms.length; i++)
+                                elms[i].style.display = 'none';
+
+                            window.print();
+                            window.open("http://bizsapam.ir/sellerpanel/home", "_self");
+                        }
+                    });
+
+                }
+            });
+            //Loop through the Table rows and build a JSON array.
+        }
+
+        else {
+            alert("ابتدا محصولات مورد نظر را ثبت نمایید");
+        }
+
+        });
+
+
+
+
+      $('.minus-btn').on('click', function(e) {
+    		e.preventDefault();
+    		var $this = $(this);
+    		var $input = $this.closest('div').find('input');
+    		var value = parseInt($input.val());
+
+    		if (value > 1) {
+                value = value - 1;
+                RemoveProduct();
+    		} else {
+    		    value = 0;
+    		    $input.css("display", "none");
+                $this.css("display", "none");
+                RemoveProduct();
+    		}
+
+        $input.val(value);
+
+    	});
+
+        $('.plus-btn').on('click', function (e) {
+            
+    		e.preventDefault();
+    		var $this = $(this);
+    		var $input = $this.closest('div').find('input');
+    		var $minusbtn = $this.closest('div').find('button');
+    		var value = parseInt($input.val());
+
+            PId = document.getElementById("txtId").value;
+            
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("GetProductQty", "SellerPanel")',
+                data: { ProductId: PId },
+                success: function (data) {
+                    if (value < data) {
+                        if (value < 100) {
+                            value = value + 1;
+                            $input.css("display", "unset");
+                            $minusbtn.css("display", "unset");
+                            AddProduct();
+                        } else {
+                            value = 100;
+
+                        }
+
+                        $input.val(value);
+                    }
+                    else {
+                        alert("تعداد بیشتری از این محصول در انبار موجود نیست");
+                    }
+                }
+            });
+
+
+    	});
+
+      $('.like-btn').on('click', function() {
+        $(this).toggleClass('is-active');
+      });
+
+
+
+        function OpenHome()
+        {
+            window.open("http://bizsapam.ir/sellerpanel/home", "_self");
+        }
+
+        function BarcodeReader() {
+
+            var BarcodeValue = document.getElementById("TxtBarcode").value;
+
+                    $.ajax({
+                    type: "post",
+                    url: '@Url.Action("GetProductInfo2", "SellerPanel")',
+                    data: { Barcode : BarcodeValue },
+                        success: function (data) {
+                            if (data != "Unsuccesfull") {
+                                var res = data.split("-");
+
+                                var Price = res[0];
+                                var Name = res[1];
+                                var Id = res[2];
+                                var ProductQty = res[3];
+
+                                if (ProductQty > 0) {
+                                    var Qty = document.getElementById("txtQty").value;
+                                    var ProductId = document.getElementById("txtId").value;
+
+                                    if (Qty == 0) {
+                                        document.getElementById("QtyDiv").style.display = "flex";
+
+                                        $("#txtId").val(Id);
+                                        $("#txtBarcode").html(Id);
+                                        $("#txtRow").html("1");
+                                        $("#ProductName").val(Name);
+                                        $("#txtQty").val("1");
+                                        $("#txtPrice").html(Number(Price).toLocaleString('en'));
+                                        $("#txtSum").html(Number(Price).toLocaleString('en'));
+
+                                        if (parseInt(window.RowNumber) > 0)
+                                            $("#txtRow").html(window.RowNumber);
+                                        else
+                                            $("#txtRow").html("1");
+
+                                        document.getElementById("TxtBarcode").value = "";
+                                    }
+
+                                    else if (Qty > 0 && Id == ProductId) {
+                                        AddProduct();
+                                        $("#txtQty").val(parseInt(Qty) + 1);
+                                        document.getElementById("TxtBarcode").value = "";
+                                    }
+
+                                    else if (Qty > 0 && Id != ProductId) {
+                                        AddItem();
+                                        document.getElementById("QtyDiv").style.display = "flex";
+
+                                        $("#txtId").val(Id);
+                                        $("#txtBarcode").html(Id);
+                                        $("#txtRow").html("1");
+                                        $("#ProductName").val(Name);
+                                        $("#txtQty").val("1");
+                                        $("#txtPrice").html(Number(Price).toLocaleString('en'));
+                                        $("#txtSum").html(Number(Price).toLocaleString('en'));
+
+                                        if (parseInt(window.RowNumber) > 0)
+                                            $("#txtRow").html(window.RowNumber);
+                                        else
+                                            $("#txtRow").html("1");
+
+                                        document.getElementById("TxtBarcode").value = "";
+                                    }
+                                }
+                                else {
+                                    alert("موجودی این محصول تمام شده است");
+                                    $("#txtRow").html("");
+                                    txtProduct.val("");
+                                    txtQty.val("");
+                                    $("#txtPrice").html("");
+                                    $("#txtSum").html("");
+                                    document.getElementById("QtyDiv").style.display = "none";
+                                    document.getElementById("TxtBarcode").value = "";
+                                }
+                            }
+                            else {
+                                alert("بارکد تعریف نشده یابارکدخوان بارکد را شناسایی نکرده است.دوباره امتحان کنید");
+                                document.getElementById("TxtBarcode").value = "";
+                            }
+                        }
+                    });
+
+
+        }
+    </script>
+
+</body>
+
+</html>

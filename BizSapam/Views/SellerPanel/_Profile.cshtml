@@ -1,0 +1,28 @@
+﻿@model BizSapam.Models.Tbl_User
+
+@using (Html.BeginForm("_Profile", "SellerPanel", FormMethod.Post))
+{
+    <header style="padding:10px 20px !important; background-image: url(../../images/header.jpg);">
+        <div class="row">
+            <div class="col">
+                <a target="_blank" href="#">
+
+                    <img src="~/images/Users/@Model.Picture" style="width:100px; height:100px;" />
+                </a>
+            </div>
+            <div class="col company-details" style="color:white; font-size:13px;">
+                <h2 class="name">
+                    <a target="_blank" href="#">
+                        @Model.Name
+
+                    </a>
+                </h2>
+                <div style="font-family:IRANSans;"> : نام کاربری</div>@Model.Username
+
+                <div style="font-family:IRANSans;"> : کد بازاریابی</div>@Model.BIZCode
+
+            </div>
+        </div>
+    </header>
+}
+

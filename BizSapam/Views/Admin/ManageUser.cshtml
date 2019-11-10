@@ -1,0 +1,165 @@
+﻿@model BizSapam.ViewModels.UserIpagedList
+
+@{
+    ViewBag.Title = "مدیریت کاربرها";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@using PagedList.Mvc;
+@using PagedList;
+
+<head>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="header">
+                <h4 class="title" style="text-align:right; font-family:IRANSans;">اطلاعات کاربر</h4>
+            </div>
+            <div class="content">
+                @using (Html.BeginForm("AddUser", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="row">
+                        <div class="col-md-4" style="width:35%; float:right;">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" style="float:right; font-family:IRANSans">نام کاربر</label>
+                                @*<input type="email" class="form-control" placeholder="نام" style="text-align:right; font-family:IRANSans;">*@
+                                @Html.TextBoxFor(m => m.Users.Name, new { @class = "form-control", @placeholder = "نام", @style = "text-align:right; font-family:IRANSans;" })
+                            </div>
+                        </div>
+                        <div class="col-md-5" style="width:25%; float:right;">
+                            <div class="form-group">
+
+                                <label style="float:right; font-family:IRANSans;">کد بازاریابی</label>
+                                @*<input type="text" class="form-control" placeholder="قیمت" value=""  style="text-align:right; font-family:IRANSans;">*@
+                                @Html.TextBoxFor(m => m.Users.BIZCode, new { @class = "form-control", @placeholder = "کد", @style = "text-align:right; font-family:IRANSans;" })
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="width:40%; float:right;">
+                            <div class="form-group">
+                                <label style="float:right; font-family:IRANSans">تصویر</label>
+                                @*<input type="text" class="form-control" placeholder="بارکد" value="" style="text-align:right; font-family:IRANSans;">*@
+                                <label for="file">Filename:</label>
+                                <input type="file" name="file" id="file" class="form-control-file" />
+
+                                @*@Html.TextBoxFor(m => m.Users.Picture, new { @class = "form-control", @placeholder = "تصویر", @style = "text-align:right; font-family:IRANSans;" })*@
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6" style="width:33%; float:right;">
+                            <div class="form-group">
+                                <label style="float:right; font-family:IRANSans;">نام کاربری</label>
+                                @*<input type="text" class="form-control" placeholder="تعداد" value="" style="text-align:right; font-family:IRANSans;">*@
+                                @Html.TextBoxFor(m => m.Users.Username, new { @class = "form-control", @placeholder = "نام کاربری", @style = "text-align:right; font-family:IRANSans;" })
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="width:33%; float:right;">
+                            <div class="form-group">
+                                <label style="float:right; font-family:IRANSans;">رمز عبور</label>
+                                @*<input type="text" class="form-control" placeholder="توضیحات" value="" style="text-align:right; font-family:IRANSans;">*@
+                                @Html.TextBoxFor(m => m.Users.Password, new { @class = "form-control", @placeholder = "رمز", @style = "text-align:right; font-family:IRANSans;" })
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="width:33%; float:right;">
+                            <div class="form-group">
+                                <label style="float:right; font-family:IRANSans;">سطح دسترسی</label>
+                                @Html.DropDownListFor(m => m.Users.AccessLevelID, new SelectList(Model.AccessLevels, "Id", "AccessType"), "سطح دسترسی کاربر را انتخاب کنید", new { @class = "form-control", @style = "text-align:right; font-family:IRANSans;direction:rtl;" })
+                            </div>
+                        </div>
+                    </div>
+
+                    @Html.HiddenFor(m => m.Users.Id)
+
+                    <button type="submit" class="btn btn-info btn-fill pull-right" style="float:left !important; font-family:IRANSans;">ثبت</button>
+                    <div class="clearfix"></div>
+                }
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="header" style="text-align:right;">
+                <h4 class="title" style="font-family:IRANSans;">لیست کاربران</h4>
+                @*<p class="category">Here is a subtitle for this table</p>*@
+            </div>
+            <div class="form-inline md-form mr-auto mb-4">
+
+                <button onclick="SearchFunction()" class="btn btn-elegant btn-rounded btn-sm my-0" type="submit" style="font-family:IRANSans;">جستجو</button>
+                <input id="txtSearch" class="form-control mr-sm-2" type="text" placeholder="جستجو" aria-label="Search" style="width:300px; font-family:IRANSans; text-align:right; direction:rtl;">
+
+            </div>
+            <div class="content table-responsive table-full-width" style="direction:rtl;">
+                <table class="table table-hover table-striped" style="font-family:IRANSans;">
+                    <thead>
+                        <tr>
+                            <th style="text-align:right; padding-right:20px; width:150px;">کد بازاریابی</th>
+                            <th style="text-align:right;">نام </th>
+                            <th style="text-align:right; width:200px;">نام کاربری</th>
+                            <th style="text-align:right; width:200px;">رمز عبور</th>
+                            <th style="text-align:right; width:150px;">سطح دسترسی</th>
+                            <th style=" width:150px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.IpagedListUser)
+                        {
+                            <tr>
+
+                                <td style="font-family:'B Koodak'; padding-right:20px;">@Html.DisplayFor(m => user.BIZCode)</td>
+                                <td style="font-family:'B Koodak'">@Html.DisplayFor(m => user.Name)</td>
+                                <td style="font-family:'B Koodak'">@Html.DisplayFor(m => user.Username)</td>
+                                <td style="font-family:'B Koodak'">@Html.DisplayFor(m => user.Password)</td>
+                                <td style="font-family:'B Koodak'">@Html.DisplayFor(m => user.Tbl_AccessLevels.AccessType)</td>
+
+                                <td>
+                                    <i onclick="DeleteUser(@user.Id)" class="pe-7s-trash" style="font-size:20px; color:red;"></i>
+                                    <i onclick="window.open('http://bizsapam.ir/Admin/EditUser/'+@user.Id ,'_self')" class="pe-7s-note" style="font-size:20px; color:dodgerblue;"></i>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @Html.PagedListPager(Model.IpagedListUser, i => Url.Action("ManageUser", "Admin", new { i, search = Request.QueryString["search"] }))
+
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+<script>
+    function SearchFunction() {
+        var Search = document.getElementById("txtSearch").value;
+        window.open("http://bizsapam.ir/Admin/ManageUser?search=" + Search, "_self");
+
+    }
+
+    function DeleteUser(id) {
+        var r = confirm("این کاربر را حذف می کنید؟");
+        if (r == true) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("DeleteUser", "Admin")',
+                data: { UserId: id },
+                success: function (response) {
+                    if (response == "Successful")
+                        alert("این کاربر با موفقیت حذف شد");
+                    location.reload();
+                }
+            });
+        }
+    }
+
+
+
+</script>
