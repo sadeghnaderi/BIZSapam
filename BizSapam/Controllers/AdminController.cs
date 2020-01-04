@@ -146,6 +146,11 @@ namespace BizSapam.Controllers
             foreach(var InvoiceItem in DbInvoiceItemsList)
             {
                 _context.Tbl_InvoiceItems.Remove(InvoiceItem);
+
+                int ProductId = InvoiceItem.ProductId;
+
+                var DbProduct = _context.Tbl_Products.SingleOrDefault(u => u.Id == ProductId);
+                DbProduct.Qty = Convert.ToInt16(DbProduct.Qty + InvoiceItem.Qty);
             }
 
             var DbInvoice = _context.Tbl_Invoices.SingleOrDefault(u => u.Id == InvoiceId);
